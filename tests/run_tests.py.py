@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %md Test runner for `pytest`
+
+# COMMAND ----------
+
 # MAGIC %pip install -r ../requirements.txt
 
 # COMMAND ----------
