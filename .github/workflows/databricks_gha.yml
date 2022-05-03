@@ -1,0 +1,50 @@
+name: Run a notebook in the current repo on PRs
+
+on:
+  pull_request:
+
+env:
+  DATABRICKS_HOST: https://e2-dogfood.staging.cloud.databricks.com
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger notebook from PR branch
+        uses: databricks/run-notebook@v0
+        with:
+          git-commit: ${{ github.sha }}
+          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+          local-notebook-path: tests/run_tests.py
+          #existing-cluster-id: "0426-133748-gyun3scr"          
+          new-cluster-json: >
+             {
+               "num_workers": 1,
+               "spark_version": "10.4.x-scala2.12",
+               "node_type_id": "i3.xlarge"
+             }
+          libraries-json: >
+            [
+              {"pypi": 
+                {"package": "pytest"}
+              },
+              {"pypi":
+                {"package": "wget"}
+              }
+              ]
+          # Grant all users view permission on the notebook results, so that they can
+          # see the result of our CI notebook maybe
+          access-control-list-json: >
+            [
+              {
+                "group_name": "users",
+                "permission_level": "CAN_VIEW"
+              }
+            ]
+          run-name: "pytest_transforms_results"
+      #- name: Publish Unit Test Results
+      #  uses: EnricoMi/publish-unit-test-result-action@v1
+      #  if: always()
+      #  with:
+      #    files: "**/test-*.xml"
