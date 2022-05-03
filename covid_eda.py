@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC #### Get latest COVID-19 hospitalization data
+# MAGIC #### Get the latest COVID-19 hospitalization data
 
 # COMMAND ----------
 
