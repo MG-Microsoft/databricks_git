@@ -1,4 +1,4 @@
-name: Run a notebook in the current repo on PRs
+name: Run a notebook in the current repo on PR
 
 on:
   pull_request:
