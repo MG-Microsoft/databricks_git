@@ -1,4 +1,4 @@
-name: Run a notebook in the current repo on PRs
+name: Run a notebook in the current repo on PR
 
 on:
   pull_request:
@@ -7,16 +7,18 @@ env:
   DATABRICKS_HOST: https://e2-dogfood.staging.cloud.databricks.com
 
 jobs:
-  build:
+  repos-notebook:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Trigger notebook from PR branch
-        uses: databricks/run-notebook@v0
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Run local notebook
+        uses: databricks/run-notebook@main
+        id: upload-repo-run
         with:
-          git-commit: ${{ github.sha }}
-          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           local-notebook-path: tests/run_tests.py
+          git-commit: "${{ github.event.pull_request.head.sha }}"
+          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           #existing-cluster-id: "0426-133748-gyun3scr"          
           new-cluster-json: >
              {
