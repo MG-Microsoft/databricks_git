@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checks out the repo
+        uses: actions/checkout@v2
       - name: Trigger notebook from PR branch
         uses: databricks/run-notebook@v0
         with:
