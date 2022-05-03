@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC #### Get latest COVID-19 hospitalization data
+# MAGIC #### Get the latest COVID-19 hospitalization data
 
 # COMMAND ----------
 
@@ -32,7 +32,7 @@ from src.utils.transforms import *
 
 # read from /tmp, subset for USA, pivot and fill missing values
 df = pd.read_csv("/tmp/covid-hospitalizations.csv")
-df = filter_country(df, country='USA')
+df = filter_country(df, country='DZA')
 df = pivot_and_clean(df, fillna=0)  
 df = clean_spark_cols(df)
 df = index_to_col(df, colname='date')
