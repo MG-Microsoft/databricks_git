@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  DATABRICKS_HOST: https://e2-dogfood.staging.cloud.databricks.com
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_TOKEN }}
 
 jobs:
   repos-notebook:
