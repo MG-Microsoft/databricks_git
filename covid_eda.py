@@ -9,18 +9,18 @@
 
 # COMMAND ----------
 
-dbutils.widgets.dropdown(name="run as", choices=["testing", "production"], defaultValue="testing")
-
-run_as = dbutils.widgets.get("run as")
-
-# COMMAND ----------
-
 # MAGIC %pip install -r requirements.txt
 
 # COMMAND ----------
 
 # MAGIC %load_ext autoreload
 # MAGIC %autoreload 2
+
+# COMMAND ----------
+
+dbutils.widgets.dropdown(name="run as", choices=["testing", "production"], defaultValue="testing")
+
+run_as = dbutils.widgets.get("run as")
 
 # COMMAND ----------
 
