@@ -32,14 +32,19 @@ This `README.md` lives in the root directory alongside our project dependencies 
 
 ## Development workflow
 1. **Version control**
+
 Whether you have an existing notebook or are starting from scratch, start by getting your existing work into version control (like GitHub).  This repo can be synced to Databricks and your local IDE.  
 2. **Modular code**
+
 Modules are best developed in python files using your local IDE, with periodic syncs of code to Databricks via version control to test out functionality on live data in the notebook.  For a very tight dev loop experience, you can use [`dbfs-sync`](https://github.com/databricks/dbfs-sync) to instantly sync code between your local IDE and Databricks (on the same branch) without having to leverage your version control provider as an intermediary.  
 3. **Testing**
+
 When modules are working well, you can begin to develop unit tests in your IDE.  In this project we use `pytest` with fixtures for mocking dataframes as input.  For integration tests, we use for a widget in our notebook to tell Databricks whether the notebook is being run as a test or as a production job.
 4. **CI/CD**
+
 Next, we add a GitHub Actions workflow that will run our integration test whenever a pull request is made on the repo.  
 5. **Deploy to production**
+
 Finally, we configure a job using Databricks Workflows to run on the `main` branch of our repo.  This gives us confidence that production jobs will always run on code that has been tested.
 
 ## Reproducibility
