@@ -1,6 +1,6 @@
 # Running Notebooks in Production
 
-Notebooks are powerful documents for exploring and sharing data, but are often considered difficult to integrate with software engineering best practices or being generally not production ready.  This project is a _minimal example_ of what running a 'productionized' notebook could look like.  We achieve this by incorporating four pillars of good software engineering:
+While notebooks are powerful documents for exploring and sharing data, they are often considered "not production ready" due to difficulties integrating with established software engineering or DevOps best practices.  To help overcome these difficulties and confusion, this project is a _minimal example_ of what running a 'productionized' notebook could look like.  We achieve this by incorporating four pillars of sound software engineering:
 
 * Version control
 * Modular code
