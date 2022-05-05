@@ -16,10 +16,10 @@ jobs:
         uses: databricks/run-notebook@main
         id: upload-repo-run
         with:
-          local-notebook-path: tests/run_tests.py
+          local-notebook-path: covid_eda
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          #existing-cluster-id: "0426-133748-gyun3scr"          
+          existing-cluster-id: "0503-133657-ykbcfebd"          
           new-cluster-json: >
              {
                "num_workers": 1,
@@ -35,8 +35,10 @@ jobs:
                 {"package": "wget"}
               }
               ]
+          notebook-params-json: >
+            [{"run_as": "testing"}]
           # Grant all users view permission on the notebook results, so that they can
-          # see the result of our CI notebook maybe
+          # see the result of our CI notebook
           access-control-list-json: >
             [
               {
@@ -44,9 +46,4 @@ jobs:
                 "permission_level": "CAN_VIEW"
               }
             ]
-          run-name: "pytest_transforms_results"
-      #- name: Publish Unit Test Results
-      #  uses: EnricoMi/publish-unit-test-result-action@v1
-      #  if: always()
-      #  with:
-      #    files: "**/test-*.xml"
+          run-name: "integration_test"
