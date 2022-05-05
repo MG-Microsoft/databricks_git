@@ -29,7 +29,7 @@ run_as = dbutils.widgets.get("run as")
 
 # COMMAND ----------
 
-from covid_analysis.utils.transforms import *
+from covid_analysis.transforms import *
 
 url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/hospitalizations/covid-hospitalizations.csv"
 path = "/tmp/covid-hospitalizations.csv"
@@ -39,7 +39,6 @@ get_data(url, path)
 # COMMAND ----------
 
 import pandas as pd
-from covid_analysis.transforms import *
 
 # read from /tmp, subset for USA, pivot and fill missing values
 df = pd.read_csv("/tmp/covid-hospitalizations.csv")
