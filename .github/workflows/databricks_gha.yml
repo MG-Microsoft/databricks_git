@@ -19,13 +19,13 @@ jobs:
           local-notebook-path: tests/run_tests.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          #existing-cluster-id: "0426-133748-gyun3scr"          
-          new-cluster-json: >
-             {
-               "num_workers": 1,
-               "spark_version": "10.4.x-scala2.12",
-               "node_type_id": "i3.xlarge"
-             }
+          existing-cluster-id: "0503-133657-ykbcfebd"          
+          #new-cluster-json: >
+          #   {
+          #     "num_workers": 1,
+          #     "spark_version": "10.4.x-scala2.12",
+          #     "node_type_id": "i3.xlarge"
+          #   }
           libraries-json: >
             [
               {"pypi": 
