@@ -8,7 +8,7 @@
 # COMMAND ----------
 
 import pytest
-retcode = pytest.main(["--junitxml=/tmp/test-unit.xml", "-lr", "/Workspace/Repos/rafi.kurlansik@databricks.com/e2e-cuj"])
+retcode = pytest.main(["--junitxml=/tmp/test-unit.xml", "-lr", "."])
 
 # COMMAND ----------
 
