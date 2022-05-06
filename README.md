@@ -28,7 +28,7 @@ While notebooks are powerful documents for exploring and sharing data, they are 
     └── transforms_test.py
 ```
 
-The main Databricks notebook `covid_eda.py` lives in the root directory alongside our project dependencies in `requirements.txt` and this `README.md`.  There are also a few directories containing Databricks compute configurations (`/conf`), our python modules (`/covid_analysis`), tests (`/tests`), and our GitHub Actions configuration (`.github/workflows/databricks_gha.yml`) for CI/CD. 
+The main Databricks notebook `covid_eda.py` lives in the root directory alongside our project dependencies in `requirements.txt` and this `README.md`.  There are also a few directories containing Databricks compute configurations (`/conf`), our python modules (`/covid_analysis`), tests (`/tests`), and our GitHub Actions configuration (`/.github/workflows/databricks_gha.yml`) for CI/CD. 
 
 ## Development workflow
 
