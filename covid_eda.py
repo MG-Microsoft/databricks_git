@@ -8,7 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md #### Transform
+# MAGIC %md #### Read
 
 # COMMAND ----------
 
@@ -16,11 +16,6 @@ import pandas as pd
 
 # read from /tmp, subset for USA, pivot and fill missing values
 df = pd.read_csv("/tmp/covid-hospitalizations.csv")
-df = df[df.iso_code == 'USA']\
-     .pivot_table(values='value', columns='indicator', index='date')\
-     .fillna(0)
-
-display(df)
 
 # COMMAND ----------
 
@@ -29,28 +24,55 @@ display(df)
 
 # COMMAND ----------
 
-df.plot(figsize=(13,6), grid=True).legend(loc='upper left')
+display(df)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Data Transformations
+
+# COMMAND ----------
+
+# MAGIC %pip install bamboolib --quiet
+
+# COMMAND ----------
+
+import bamboolib as bam
+bam
+
+# COMMAND ----------
+
+import plotly.express as px
+fig = px.line(df.sort_values(by=['date'], ascending=[True]), x='date', y=['Daily_ICU_occupancy', 'Daily_ICU_occupancy_per_million', 'Daily_hospital_occupancy', 'Daily_hospital_occupancy_per_million', 'Weekly_new_hospital_admissions', 'Weekly_new_hospital_admissions_per_million'], title='Covid-19 Trends 2020-present', template='plotly_white')
+fig
 
 # COMMAND ----------
 
 # MAGIC  %md
 # MAGIC #### Save to Delta Lake
-# MAGIC The current schema has spaces in the column names, which are incompatible with Delta Lake.  To save our data as a table, we'll replace the spaces with underscores.  We also need to add the date index as its own column or it won't be available to others who might query this table.
 
 # COMMAND ----------
 
-import pyspark.pandas as ps
+import pandas as pd
+df = pd.read_csv(r'/tmp/covid-hospitalizations.csv', sep=',', decimal='.')
+# Step: Change data type of date to Datetime
+df['date'] = pd.to_datetime(df['date'], infer_datetime_format=True)
 
-clean_cols = df.columns.str.replace(' ', '_')
+# Step: Keep rows where iso_code is one of: USA
+df = df.loc[df['iso_code'].isin(['USA'])]
 
-# Create pandas on Spark dataframe
-psdf = ps.from_pandas(df)
+# Step: Manipulate strings of 'indicator' via Find ' ' and Replace with '_'
+df["indicator"] = df["indicator"].str.replace(' ', '_', regex=False)
 
-psdf.columns = clean_cols
-psdf['date'] = psdf.index
+# Step: Pivot dataframe from long to wide format using the variable column 'indicator' and the value column 'value'
+df = df.set_index(['entity', 'iso_code', 'date', 'indicator'])['value'].unstack(-1).reset_index()
+df.columns.name = ''
 
-# Write to Delta table, overwrite with latest data each time
-psdf.to_table(name='covid_trends', mode='overwrite')
+# Step: Replace missing values
+df = df.fillna(0)
+
+# Step: Databricks: Write to database table
+spark.createDataFrame(df).write.mode("overwrite").option("mergeSchema", "true").saveAsTable("covid_trends")
 
 # COMMAND ----------
 
@@ -60,4 +82,4 @@ psdf.to_table(name='covid_trends', mode='overwrite')
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT * FROM covid_usa
+# MAGIC SELECT * FROM covid_trends
