@@ -8,7 +8,7 @@
 # COMMAND ----------
 
 import pytest
-retcode = pytest.main(["--junitxml=/tmp/test-unit.xml", "-lr", "."])
+retcode = pytest.main(["--junitxml=/tmp/test-unit.xml", "-lr", ".", "p", "no:cacheprovider"])
 
 # COMMAND ----------
 
