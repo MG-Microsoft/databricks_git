@@ -1,5 +1,5 @@
 {
-  "cluster_id": "0503-133657-ykbcfebd",
+  "cluster_id": "0916-024014-nn7wtirv",
   "driver": {
     "node_id": "aebf1b43e8cd420e8cdadca333fc5a11",
     "node_aws_attributes": {
@@ -61,7 +61,7 @@
     "Vendor": "Databricks",
     "Creator": "rafi.kurlansik@databricks.com",
     "ClusterName": "devx",
-    "ClusterId": "0503-133657-ykbcfebd"
+    "ClusterId": "0916-024014-nn7wtirv"
   },
   "creator_user_name": "rafi.kurlansik@databricks.com",
   "init_scripts_safe_mode": false
