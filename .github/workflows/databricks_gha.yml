@@ -19,7 +19,7 @@ jobs:
           local-notebook-path: covid_eda.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          existing-cluster-id: "0503-133657-ykbcfebd"          
+          existing-cluster-id: "0916-024014-nn7wtirv"          
           #new-cluster-json: >
           #   {
           #     "num_workers": 1,
