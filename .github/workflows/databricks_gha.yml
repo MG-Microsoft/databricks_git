@@ -16,7 +16,7 @@ jobs:
         uses: databricks/run-notebook@main
         id: upload-repo-run
         with:
-          local-notebook-path: covid_eda.py
+          local-notebook-path: tests/run_unit_tests.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           existing-cluster-id: "0916-024014-nn7wtirv"          
