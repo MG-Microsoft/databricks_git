@@ -31,24 +31,14 @@ jobs:
              "spark_conf": {
                "spark.databricks.cluster.profile": "singleNode",
                "spark.master": "[*, 4]"
-             },
-            #  "azure_attributes": {
-            #    "first_on_demand": 1,
-            #    "availability": "ON_DEMAND_AZURE",
-            #    "spot_bid_max_price": -1
-            #  },            
+             },           
              "enable_elastic_disk": true,
              "autoscale": {
                "min_workers": 1,
                "max_workers": 3
              },
              "runtime_engine": "STANDARD"
-           }
-          #   {
-          #     "num_workers": 1,
-          #     "spark_version": "10.4.x-scala2.12",
-          #     "node_type_id": "i3.xlarge"
-          #   }
+           }          
           libraries-json: >
             [
               {"pypi": 
