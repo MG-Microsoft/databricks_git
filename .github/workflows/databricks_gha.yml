@@ -19,7 +19,7 @@ jobs:
           local-notebook-path: tests/run_unit_tests.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          existing-cluster-id: "0510-121004-pklwcb7v"
+          # existing-cluster-id: "0510-121004-pklwcb7v"
           new-cluster-json: >
              {
                "cluster_name": "single-node-cluster-from-cli",
