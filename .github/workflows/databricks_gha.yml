@@ -32,6 +32,11 @@ jobs:
                "min_workers": 1,
                "max_workers": 3
              },
+             "azure_attributes": {
+               "first_on_demand": 1,
+               "availability": "SPOT_WITH_FALLBACK_AZURE",
+               "spot_bid_max_price": -1
+             },             
              "enable_elastic_disk": true,
               "runtime_engine": "STANDARD"
             }
