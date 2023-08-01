@@ -19,8 +19,33 @@ jobs:
           local-notebook-path: tests/run_unit_tests.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          existing-cluster-id: "0510-121004-pklwcb7v"          
-          #new-cluster-json: >
+          # existing-cluster-id: "0510-121004-pklwcb7v"          
+          new-cluster-json: >
+           {
+             "cluster_name": "single-node-cluster-from-cli",
+             "node_type_id": "Standard_D4s_v5",
+             "spark_version": "11.3.x-scala2.12",
+             "num_workers": 0,
+             "custom_tags": {
+              "Purpose": "Test CLI"
+             },
+             "spark_conf": {
+               "spark.databricks.cluster.profile": "singleNode",
+               "spark.master": "[*, 4]"
+             },
+             "azure_attributes": {
+               "first_on_demand": 1,
+               "availability": "SPOT_WITH_FALLBACK_AZURE",
+               "spot_bid_max_price": -1
+             },
+             "autotermination_minutes": 30,
+             "enable_elastic_disk": true,
+             "autoscale": {
+               "min_workers": 1,
+               "max_workers": 3
+             },
+             "runtime_engine": "STANDARD"
+           }
           #   {
           #     "num_workers": 1,
           #     "spark_version": "10.4.x-scala2.12",
