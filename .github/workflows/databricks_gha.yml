@@ -24,8 +24,11 @@ jobs:
             {
               "num_workers": 1,
               "spark_version": "11.3.x-scala2.12",
-              "node_type_id": "Standard_D4s_v5"
-            }         
+              "node_type_id": "Standard_D4s_v5",
+              "custom_tags": {
+                 "Purpose": "Test CLI"
+                },
+            }
           # new-cluster-json: >
           #  {            
           #    "node_type_id": "Standard_D4s_v5",
