@@ -19,26 +19,32 @@ jobs:
           local-notebook-path: tests/run_unit_tests.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          # existing-cluster-id: "0510-121004-pklwcb7v"          
+          # existing-cluster-id: "0510-121004-pklwcb7v" 
           new-cluster-json: >
-           {            
-             "node_type_id": "Standard_D4s_v5",
-             "spark_version": "11.3.x-scala2.12",
-             "num_workers": 0,
-             "custom_tags": {
-              "Purpose": "Test CLI"
-             },
-             "spark_conf": {
-               "spark.databricks.cluster.profile": "singleNode",
-               "spark.master": "[*, 4]"
-             },           
-             "enable_elastic_disk": true,
-             "autoscale": {
-               "min_workers": 1,
-               "max_workers": 3
-             },
-             "runtime_engine": "STANDARD"
-           }          
+            {
+              "num_workers": 1,
+              "spark_version": "11.3.x-scala2.12",
+              "node_type_id": "Standard_D4s_v5"
+            }         
+          # new-cluster-json: >
+          #  {            
+          #    "node_type_id": "Standard_D4s_v5",
+          #    "spark_version": "11.3.x-scala2.12",
+          #    "num_workers": 0,
+          #    "custom_tags": {
+          #     "Purpose": "Test CLI"
+          #    },
+          #    "spark_conf": {
+          #      "spark.databricks.cluster.profile": "singleNode",
+          #      "spark.master": "[*, 4]"
+          #    },           
+          #    "enable_elastic_disk": true,
+          #    "autoscale": {
+          #      "min_workers": 1,
+          #      "max_workers": 3
+          #    },
+          #    "runtime_engine": "STANDARD"
+          #  }          
           libraries-json: >
             [
               {"pypi": 
