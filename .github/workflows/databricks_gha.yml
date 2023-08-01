@@ -21,8 +21,7 @@ jobs:
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           # existing-cluster-id: "0510-121004-pklwcb7v"          
           new-cluster-json: >
-           {
-             "cluster_name": "single-node-cluster-from-cli",
+           {            
              "node_type_id": "Standard_D4s_v5",
              "spark_version": "11.3.x-scala2.12",
              "num_workers": 0,
