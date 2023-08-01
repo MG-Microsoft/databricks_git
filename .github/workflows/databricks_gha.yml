@@ -34,7 +34,7 @@ jobs:
              },
              "azure_attributes": {
                "first_on_demand": 1,
-               "availability": "SPOT_WITH_FALLBACK_AZURE",
+               "availability": "ON_DEMAND_AZURE",
                "spot_bid_max_price": -1
              },            
              "enable_elastic_disk": true,
