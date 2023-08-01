@@ -39,11 +39,11 @@ jobs:
             {"run_as" : "testing"}
           # Grant all users view permission on the notebook results, so that they can
           # see the result of our CI notebook maybe
-          access-control-list-json: >
-            [
-              {
-                "group_name": "users",
-                "permission_level": "CAN_VIEW"
-              }
-            ]
+          # access-control-list-json: >
+          #   [
+          #     {
+          #       "group_name": "users",
+          #       "permission_level": "CAN_VIEW"
+          #     }
+          #   ]
           run-name: "Integration test"
