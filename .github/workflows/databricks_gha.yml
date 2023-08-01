@@ -31,8 +31,9 @@ jobs:
              "autoscale": {
                "min_workers": 1,
                "max_workers": 3
-             },                          
-              "runtime_engine": "STANDARD"  
+             },
+             "enable_elastic_disk": true,
+              "runtime_engine": "STANDARD"
             }
           # new-cluster-json: >
           #  {            
