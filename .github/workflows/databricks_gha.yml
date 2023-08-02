@@ -2,6 +2,8 @@ name: Run a notebook in the current repo on PR
 
 on:
   pull_request:
+    branches:
+      - main
 
 env:
   DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
@@ -11,7 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      # - name: Generate and save AAD Token
+      #   run: |
+      #     echo "DATABRICKS_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+      #       https://login.microsoftonline.com/${{ secrets.AZURE_SP_TENANT_ID }}/oauth2/v2.0/token \
+      #       -d 'client_id=${{ secrets.AZURE_SP_APPLICATION_ID }}' \
+      #       -d 'grant_type=client_credentials' \
+      #       -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
+      #       -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
       - name: Run local notebook
         uses: databricks/run-notebook@main
         id: upload-repo-run
@@ -19,13 +29,46 @@ jobs:
           local-notebook-path: tests/run_unit_tests.py
           git-commit: "${{ github.event.pull_request.head.sha }}"
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          existing-cluster-id: "0916-024014-nn7wtirv"          
-          #new-cluster-json: >
-          #   {
-          #     "num_workers": 1,
-          #     "spark_version": "10.4.x-scala2.12",
-          #     "node_type_id": "i3.xlarge"
-          #   }
+          # existing-cluster-id: "0510-121004-pklwcb7v" 
+          new-cluster-json: >
+            {
+              "num_workers": 1,
+              "spark_version": "11.3.x-scala2.12",
+              "node_type_id": "Standard_D4s_v5",
+              "custom_tags": {
+                 "Purpose": "Test CLI"
+                },
+             "autoscale": {
+               "min_workers": 1,
+               "max_workers": 3
+             },
+             "azure_attributes": {
+               "first_on_demand": 1,
+               "availability": "SPOT_WITH_FALLBACK_AZURE",
+               "spot_bid_max_price": -1
+             },             
+             "enable_elastic_disk": true,
+              "runtime_engine": "STANDARD"
+            }
+          # new-cluster-json: >
+          #  {            
+          #    "node_type_id": "Standard_D4s_v5",
+          #    "spark_version": "11.3.x-scala2.12",
+          #    "num_workers": 0,
+          #    "custom_tags": {
+          #     "Purpose": "Test CLI"
+          #    },
+          #    "spark_conf": {
+          #      "spark.databricks.cluster.profile": "singleNode",
+          #      "spark.master": "[*, 4]"
+          #    },           
+          #    "enable_elastic_disk": true,
+          #    "autoscale": {
+          #      "min_workers": 1,
+          #      "max_workers": 3
+          #    },
+          #    "runtime_engine": "STANDARD"
+          #  }          
           libraries-json: >
             [
               {"pypi": 
@@ -39,11 +82,20 @@ jobs:
             {"run_as" : "testing"}
           # Grant all users view permission on the notebook results, so that they can
           # see the result of our CI notebook maybe
-          access-control-list-json: >
-            [
-              {
-                "group_name": "users",
-                "permission_level": "CAN_VIEW"
-              }
-            ]
+          # access-control-list-json: >
+          #   [
+          #     {
+          #       "group_name": "users",
+          #       "permission_level": "CAN_VIEW"
+          #     }
+          #   ]
           run-name: "Integration test"
+  deploy_code:
+    name: Deploy notebook to workspace folder
+    uses: .github/workflows/reusable_databricks_code_deployment.yml@v1.0.0
+    with:
+      databricks_code_path: "Pipelines/prod/my_great_pipeline"
+      service_code_file: "src/code/pipeline.py"
+    secrets:
+      DATABRICKS_HOST_URL: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
