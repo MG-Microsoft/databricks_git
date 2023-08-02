@@ -2,6 +2,8 @@ name: Run a notebook in the current repo on PR
 
 on:
   pull_request:
+    branches:
+      - main
 
 env:
   DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
@@ -12,6 +14,14 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+      # - name: Generate and save AAD Token
+      #   run: |
+      #     echo "DATABRICKS_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+      #       https://login.microsoftonline.com/${{ secrets.AZURE_SP_TENANT_ID }}/oauth2/v2.0/token \
+      #       -d 'client_id=${{ secrets.AZURE_SP_APPLICATION_ID }}' \
+      #       -d 'grant_type=client_credentials' \
+      #       -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
+      #       -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
       - name: Run local notebook
         uses: databricks/run-notebook@main
         id: upload-repo-run
@@ -80,3 +90,12 @@ jobs:
           #     }
           #   ]
           run-name: "Integration test"
+  deploy_code:
+    name: Deploy notebook to workspace folder
+    uses: .github/workflows/reusable_databricks_code_deployment.yml@v1.0.0
+    with:
+      databricks_code_path: "Pipelines/prod/my_great_pipeline"
+      service_code_file: "src/code/pipeline.py"
+    secrets:
+      DATABRICKS_HOST_URL: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
